@@ -99,6 +99,7 @@ make-script-executable:
       jmxtrans_config: {{ jmxtrans.alt_config }}
       jmxtrans_user: jmxtrans
 
+{%- if jmxtrans.graphite_host is defined %}
 {{ jmxtrans.alt_config }}/jmxtrans-env.sh:
   file.managed:
     - source: salt://jmxtrans/files/jmxtrans-env.sh
@@ -109,12 +110,15 @@ make-script-executable:
       jmxtrans_prefix: {{ jmxtrans.alt_home }}
       jmxtrans_jsondir: /etc/jmxtrans/json
       jmxtrans_logdir: /var/log/jmxtrans
+      graphite_host: {{ jmxtrans.graphite_host }}
+      graphite_port: {{ jmxtrans.graphite_port }}
 
 enable-jmxtrans-service:
   service:
     - name: jmxtrans
     - running
     - enable: True
-#    - reload: True
-#    - watch:
-#      - file: /etc/jmxtrans/json/*
+    - reload: True
+    - watch:
+      - file: {{ jmxtrans.alt_config }}/jmxtrans-env.sh
+{%- endif %}
