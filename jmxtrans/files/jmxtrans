@@ -33,7 +33,7 @@ fi
 RETVAL=0
 prog="jmxtrans"
 user="{{ jmxtrans_user }}"
-exec="{{ jmxtrans_prefix }}/jmxtrans.sh"
+exec="{{ jmxtrans_prefix }}/bin/jmxtrans.sh"
 lockdir=/var/lock/subsys
 lockfile=$lockdir/${prog}
 pidfile=/var/run/jmxtrans/${prog}.pid

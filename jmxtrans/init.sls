@@ -44,36 +44,19 @@ jmxtrans-home-link:
 
 {% set real_config_src = jmxtrans['real_home'] + '/conf' %}
 
-/etc/jmxtrans:
+config-directories:
   file.directory:
     - owner: root
     - group: root
     - mode: 755
-
-/etc/jmxtrans/json:
-  file.directory:
-    - owner: root
-    - group: root
-    - mode: 755
-
-move-jmxtrans-dist-conf:
-  file.directory:
-    - name: {{ jmxtrans['real_config'] }}
-    - user: root
-    - group: root
-  cmd.run:
-    - name: mv  {{ real_config_src }} {{ jmxtrans['real_config_dist'] }}
-    - unless: test -L {{ real_config_src }}
-    - onlyif: test -d {{ real_config_src }}
-    - require:
-      - file.directory: {{ jmxtrans['real_home'] }}
-      - file.directory: /etc/jmxtrans
+    - makedirs: True
+    - names:
+      - /etc/jmxtrans/json
+      - {{ jmxtrans['real_config'] }}
 
 {{ real_config_src }}:
   file.symlink:
     - target: {{ jmxtrans['alt_config'] }}
-    - require:
-      - cmd: move-jmxtrans-dist-conf
 
 jmxtrans-conf-link:
   alternatives.install:
@@ -85,7 +68,7 @@ jmxtrans-conf-link:
 
 make-script-executable:
   cmd.wait:
-    - name: chmod 755 {{ jmxtrans.alt_home }}/jmxtrans.sh
+    - name: chmod 755 {{ jmxtrans.alt_home }}/bin/jmxtrans.sh
     - watch:
       - cmd: unpack-jmxtrans-dist
 

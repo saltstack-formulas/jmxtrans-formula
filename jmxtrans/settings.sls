@@ -1,10 +1,10 @@
 {%- set uid = salt['pillar.get']('users:jmxtrans:uid', '6095') %}
 
-{%- set pillar_version = salt['pillar.get']('jmxtrans:version', '2013.11.29') %}
+{%- set pillar_version = salt['pillar.get']('jmxtrans:version', '1.0.0') %}
 {%- set version = salt['grains.get']('jmxtrans:version', pillar_version) %}
 {%- set version_name = 'jmxtrans-' + version %}
 
-{%- set pillar_source_url = salt['pillar.get']('jmxtrans:source_url','http://sroegner-install.s3.amazonaws.com/jmxtrans-' + version + '-sqrrl.tar.gz') %}
+{%- set pillar_source_url = salt['pillar.get']('jmxtrans:source_url','http://sroegner-install.s3.amazonaws.com/jmxtrans-' + version + '-dist.tar.gz') %}
 {%- set source_url = salt['pillar.get']('jmxtrans:source_url', pillar_source_url) %}
 {%- set alt_home         = salt['pillar.get']('jmxtrans:prefix', '/usr/lib/jmxtrans') %}
 {%- set real_home        = '/usr/lib/' + version_name %}
