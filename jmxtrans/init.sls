@@ -1,3 +1,5 @@
+{%- if 'monitor' in salt['grains.get']('roles',[]) %}
+
 {%- from 'jmxtrans/settings.sls' import jmxtrans with context %}
 
 jmxtrans:
@@ -104,4 +106,7 @@ enable-jmxtrans-service:
     - reload: True
     - watch:
       - file: {{ jmxtrans.alt_config }}/jmxtrans-env.sh
+      - file: /etc/jmxtrans/json
+{%- endif %}
+
 {%- endif %}
