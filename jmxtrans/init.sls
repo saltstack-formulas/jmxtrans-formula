@@ -1,5 +1,8 @@
 {%- if 'monitor' in salt['grains.get']('roles',[]) %}
 
+# TODO: temporary fix for hostname configuration in ec2
+include:
+  - ec2
 {%- from 'jmxtrans/settings.sls' import jmxtrans with context %}
 
 jmxtrans:
