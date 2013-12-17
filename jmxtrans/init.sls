@@ -100,6 +100,7 @@ make-script-executable:
       jmxtrans_logdir: /var/log/jmxtrans
       graphite_host: {{ jmxtrans.graphite_host }}
       graphite_port: {{ jmxtrans.graphite_port }}
+      source_host: {{ jmxtrans.source_host }}
 
 enable-jmxtrans-service:
   service:

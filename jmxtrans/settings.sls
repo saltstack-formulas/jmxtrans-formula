@@ -14,6 +14,7 @@
 {%- set java_home        = salt['pillar.get']('java_home', '/usr/lib/java') %}
 {%- set graphite_port    = salt['pillar.get']('graphite_port', '2003') %}
 {%- set graphite_host    = salt['mine.get']('roles:monitor_master', 'network.interfaces', 'grain').keys()|first() -%}
+{%- set source_host      = salt['grains.get']('id', 'unknown-host').split('.') | first() %}
 
 {%- set jmxtrans = {} %}
 
@@ -28,5 +29,6 @@
                           'real_config'      : real_config,
                           'real_config_dist' : real_config_dist,
                           'graphite_host'    : graphite_host,
-                          'graphite_port'    : graphite_port
+                          'graphite_port'    : graphite_port,
+                          'source_host'      : source_host
                       }) %}
