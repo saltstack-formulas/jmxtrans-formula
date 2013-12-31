@@ -49,7 +49,7 @@ jmxtrans-home-link:
 
 config-directories:
   file.directory:
-    - owner: root
+    - user: root
     - group: root
     - mode: 755
     - makedirs: True
