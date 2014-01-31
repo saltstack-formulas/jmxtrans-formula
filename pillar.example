@@ -1,0 +1,14 @@
+# no need to specify anything as long as you're ok with these defaults
+users:
+  jmxtrans:
+    uid: 6095
+
+jmxtrans:
+  version: 1.0.0
+  source_url: # there is default URL provided
+  prefix: /usr/lib/jmxtrans
+  config:
+    directory: /etc/jmxtrans/conf
+
+java_home: /usr/lib/java
+
