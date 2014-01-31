@@ -2,7 +2,7 @@
 jmxtrans
 ========
 
-Formula to set up and configure a node-local `jmxtrans: <https://github.com/jmxtrans/jmxtrans>`_ service. Depends on a JDK/JRE
+Formula to set up and configure a node-local `jmxtrans<https://github.com/jmxtrans/jmxtrans>`_ service. Depends on a JDK/JRE
 already installed, with the pillar ``java_home`` pointing to JAVA_HOME.
 
 .. note::
