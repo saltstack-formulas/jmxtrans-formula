@@ -33,7 +33,7 @@ jmxtrans-home-link:
     - path: {{ jmxtrans['real_home'] }}
     - priority: 30
     - require:
-      - cmd.run: unpack-jmxtrans-dist
+      - cmd: unpack-jmxtrans-dist
 
 {{ jmxtrans['real_home'] }}:
   file.directory:
@@ -43,7 +43,7 @@ jmxtrans-home-link:
       - user
       - group
     - require:
-      - cmd.run: unpack-jmxtrans-dist
+      - cmd: unpack-jmxtrans-dist
 
 {% set real_config_src = jmxtrans['real_home'] + '/conf' %}
 
@@ -67,7 +67,7 @@ jmxtrans-conf-link:
     - path: {{ jmxtrans['real_config'] }}
     - priority: 30
     - require:
-      - file.directory: {{ jmxtrans['real_config'] }}
+      - file: {{ jmxtrans['real_config'] }}
 
 make-script-executable:
   cmd.wait:
