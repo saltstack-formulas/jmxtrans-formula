@@ -54,8 +54,8 @@ config-directories:
     - mode: 755
     - makedirs: True
     - names:
-      - /etc/jmxtrans/json
-      - {{ jmxtrans['real_config'] }}
+      - {{ jmxtrans.real_config }}
+      - {{ jmxtrans.json_dir }}
 
 {{ real_config_src }}:
   file.symlink:
@@ -69,11 +69,11 @@ jmxtrans-conf-link:
     - require:
       - file: {{ jmxtrans['real_config'] }}
 
-make-script-executable:
-  cmd.wait:
-    - name: chmod 755 {{ jmxtrans.alt_home }}/bin/jmxtrans.sh
-    - watch:
-      - cmd: unpack-jmxtrans-dist
+{{ jmxtrans.alt_home }}/bin/jmxtrans.sh:
+  file.touch:
+    - user: root
+    - group: root
+    - mode: 755
 
 /etc/init.d/jmxtrans:
   file.managed:
@@ -85,28 +85,23 @@ make-script-executable:
       jmxtrans_config: {{ jmxtrans.alt_config }}
       jmxtrans_user: jmxtrans
 
-{{ jmxtrans.alt_config }}/jmxtrans-env.sh:
+/etc/sysconfig/jmxtrans:
   file.managed:
-    - source: salt://jmxtrans/files/jmxtrans-env.sh
+    - source: salt://jmxtrans/files/jmxtrans.sysconfig
     - template: jinja
-    - mode: 755
     - context:
       java_home: {{ jmxtrans.java_home }}
       jmxtrans_prefix: {{ jmxtrans.alt_home }}
-      jmxtrans_jsondir: /etc/jmxtrans/json
+      jmxtrans_jsondir: {{ jmxtrans.json_dir }}
       jmxtrans_logdir: /var/log/jmxtrans
+      jmxtrans_loglevel: {{ jmxtrans.log_level }}
       graphite_host: {{ graphite.host }}
       graphite_port: {{ graphite.port }}
       source_host: {{ jmxtrans.source_host }}
 
 enable-jmxtrans-service:
-  service:
+  service.running:
     - name: jmxtrans
-    - running
     - enable: True
-    - reload: True
-    - watch:
-      - file: {{ jmxtrans.alt_config }}/jmxtrans-env.sh
-      - file: /etc/jmxtrans/json
 
 {%- endif %}

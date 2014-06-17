@@ -4,11 +4,13 @@ users:
     uid: 6095
 
 jmxtrans:
-  version: 1.0.0
-  source_url: # there is default URL provided
+  version: 1.0.1
+  source_url: # a default URL is provided
   prefix: /usr/lib/jmxtrans
   config:
+    log_level: error
     directory: /etc/jmxtrans/conf
+    json_directory: /etc/jmxtrans/json
 
 java_home: /usr/lib/java
 

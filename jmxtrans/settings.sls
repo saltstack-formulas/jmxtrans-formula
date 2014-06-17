@@ -1,14 +1,20 @@
+{% set p  = salt['pillar.get']('jmxtrans', {}) %}
+{% set pc = p.get('config', {}) %}
+{% set g  = salt['grains.get']('jmxtrans', {}) %}
+{% set gc = g.get('config', {}) %}
+
 {%- set uid = salt['pillar.get']('users:jmxtrans:uid', '6095') %}
 
-{%- set pillar_version = salt['pillar.get']('jmxtrans:version', '1.0.0') %}
-{%- set version = salt['grains.get']('jmxtrans:version', pillar_version) %}
+{%- set version = g.get('version', p.get('version', '1.0.1')) %}
 {%- set version_name = 'jmxtrans-' + version %}
 
-{%- set pillar_source_url = salt['pillar.get']('jmxtrans:source_url','http://sroegner-install.s3.amazonaws.com/jmxtrans-' + version + '-dist.tar.gz') %}
-{%- set source_url = salt['pillar.get']('jmxtrans:source_url', pillar_source_url) %}
-{%- set alt_home         = salt['pillar.get']('jmxtrans:prefix', '/usr/lib/jmxtrans') %}
+{%- set default_source_url = 'http://sroegner-install.s3.amazonaws.com/jmxtrans-' + version + '-dist.tar.gz' %}
+{%- set source_url       = g.get('source_url', p.get('source_url', default_source_url)) %}
+{%- set alt_home         = g.get('prefix', p.get('prefix', '/usr/lib/jmxtrans')) %}
 {%- set real_home        = '/usr/lib/' + version_name %}
-{%- set alt_config       = salt['pillar.get']('jmxtrans:config:directory', '/etc/jmxtrans/conf') %}
+{%- set alt_config       = gc.get('directory', pc.get('directory','/etc/jmxtrans/conf')) %}
+{%- set json_dir         = gc.get('json_directory', pc.get('json_directory','/etc/jmxtrans/json')) %}
+{%- set log_level        = gc.get('log_level', pc.get('log_level','error')) %}
 {%- set real_config      = alt_config + '-' + version %}
 {%- set real_config_dist = alt_config + '.dist' %}
 {%- set java_home        = salt['pillar.get']('java_home', '/usr/lib/java') %}
@@ -26,5 +32,7 @@
                           'alt_config'       : alt_config,
                           'real_config'      : real_config,
                           'real_config_dist' : real_config_dist,
-                          'source_host'      : source_host
+                          'source_host'      : source_host,
+                          'log_level'        : log_level,
+                          'json_dir'         : json_dir,
                       }) %}
