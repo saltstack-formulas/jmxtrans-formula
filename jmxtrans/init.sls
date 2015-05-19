@@ -69,12 +69,6 @@ jmxtrans-conf-link:
     - require:
       - file: {{ jmxtrans['real_config'] }}
 
-{{ jmxtrans.alt_home }}/bin/jmxtrans.sh:
-  file.touch:
-    - user: root
-    - group: root
-    - mode: 755
-
 /etc/init.d/jmxtrans:
   file.managed:
     - source: salt://jmxtrans/files/jmxtrans
